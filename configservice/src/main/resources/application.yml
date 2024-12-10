@@ -8,5 +8,5 @@ spring:
     config:
       server:
         git:
-          url:
-            default-label: main
+          url: https://github.com/leetorrl/MSAyaml
+          default-label: main

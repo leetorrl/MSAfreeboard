@@ -7,7 +7,7 @@ spring:
     # driver-class-name: org.mariadb.jdbc.Driver
     # url: jdbc:mariadb://localhost:3306/pmh?serverTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.0.29:3306/msa?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://192.168.0.69:3306/msa?characterEncoding=UTF-8&serverTimezone=UTC
   output:
     ansi:
       enabled: always
@@ -74,6 +74,3 @@ token:
 
 gateway:
   ip: 127.0.0.1
-
-
-
