@@ -1,0 +1,61 @@
+# server:
+#  port: 8080
+
+spring:
+  application:
+    name: ex1
+  #    spl? ?????
+#  sql:
+#    init:
+#      mode: always
+#
+#  output:
+#    ansi:
+#      enabled: always
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    #    url: jdbc:mariadb://maria-container:3307/db
+
+    # url: jdbc:mariadb://localhost:3307/db
+    url: jdbc:mariadb://localhost:3307/db?serverTimezone=Asia/Seoul
+
+    #    url: jdbc:mariadb://121.181.223.164:3307/db
+
+    #    url: jdbc:mariadb://192.168.0.35:3307/db
+    #    url: jdbc:mariadb://192.168.0.40:3306/pmh
+    #    url: jdbc:mariadb://192.168.0.40:3306/mypmhdb
+    #    url: jdbc:mariadb://192.168.0.65:3306/cew
+
+
+    username: root
+    password: 1234
+
+
+  jpa:
+    hibernate:
+
+      ddl-auto: create
+#          ddl-auto: none
+#          ddl-auto: update
+
+    properties:
+      hibernate.format_sql: true
+    show-sql: true
+    open-in-view: false
+
+    defer-datasource-initialization: true
+
+  servlet:           #?? ??? ???? ??....
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB  #?? ?? ???
+      file-size-threshold: 0  #?? ???? 0?? ??
+      enabled: true
+
+#  jwt:
+#    secret: abcdefghijkabcdefghijkabcdefghijkabcdefghijkabcdefghijkabcdefghijk
+#jwt ??? ? ?? ???
+my:
+  value: "welcome to my value"
+  
