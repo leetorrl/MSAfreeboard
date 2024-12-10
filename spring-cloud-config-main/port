@@ -1,0 +1,11 @@
+user-service-port : 10000
+order-service-port : 10001
+catalog-service-port : 10002
+kafka-producer-port : 8090
+kafka-consumer-port : 8091
+first-service-port : 8081
+second-service-port : 8082
+
+apigateway-service-port :8080
+config-service-port : 8888
+eureka-service-port : 8761

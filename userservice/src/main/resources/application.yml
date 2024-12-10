@@ -1,0 +1,12 @@
+server:
+  port: 20000
+
+spring:
+  application:
+    name: user-service
+  cloud:
+    config:
+      server:
+        git:
+          url:
+            default-label: main
