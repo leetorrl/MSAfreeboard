@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class QnAboardResponseDto {
 
+    private Long idx;
     private String title;
     private String content;
     private String type;

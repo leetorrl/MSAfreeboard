@@ -1,3 +1,6 @@
+INSERT INTO user (userid, password, name, phoneNumber, email, role, accept)
+VALUES ('userid2', 'password', '동길홍', '010-1234-5678', 'aaa@example.com', 'ROLE_STUDENT', true);
+
 --INSERT INTO user (idx, username, age, email, password, wdate, role)
 --VALUES (1, 'Red', 25, 'red@example.com', 'password123', '2024-09-24 10:00:00','ROLE_ADMIN');
 --INSERT INTO user (idx, username, age, email, password, wdate, role)

@@ -23,7 +23,7 @@ spring:
     url: jdbc:mariadb://192.168.0.69:3306/db?serverTimezone=Asia/Seoul
     username: root
     password: 1234
-
+    initialization-mode: always # 애플리케이션 시작 시 data.sql 실행
   jpa:
     hibernate:
       ddl-auto: create

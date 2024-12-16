@@ -96,4 +96,18 @@ private QnAboardResponseDto convertToQnAboardResponseDto(QnAboard qnAboard) {
     return dto;
 }
 
+    public QnAboardResponseDto viewPage(long idx) {
+
+        QnAboard qnAboard = qnAboardRepository.findById(idx).orElseThrow(() -> new BizException(ErrorCode.NOT_FOUND));
+
+        QnAboardResponseDto qnaboardResponseDto = modelMapper.map(qnAboard, QnAboardResponseDto.class);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
+        qnaboardResponseDto.setWdate(dateTimeFormatter.format(qnAboard.getWdate()));
+
+        qnaboardResponseDto.setUser((qnAboard.getUser() != null) ? qnAboard.getUser().getName() : "탈퇴한 회원");
+//        qnaboardResponseDto.setLecture((announce.getLecture()!=null)? announce.getLecture().getTitle() : "전체");
+
+        return qnaboardResponseDto;
+
+    }
 }

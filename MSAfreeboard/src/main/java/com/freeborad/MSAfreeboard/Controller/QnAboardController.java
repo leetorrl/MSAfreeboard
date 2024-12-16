@@ -6,6 +6,7 @@ import com.freeborad.MSAfreeboard.Entity.Announce;
 import com.freeborad.MSAfreeboard.Entity.QnAboard;
 import com.freeborad.MSAfreeboard.Login.LoginUserDetails;
 import com.freeborad.MSAfreeboard.Repository.QnAboardRepository;
+import com.freeborad.MSAfreeboard.Response.AnnounceResponseDto;
 import com.freeborad.MSAfreeboard.Response.AnnounceResponsePageDto;
 import com.freeborad.MSAfreeboard.Response.QnAboardPageResponseDto;
 import com.freeborad.MSAfreeboard.Response.QnAboardResponseDto;
@@ -29,7 +30,7 @@ public class QnAboardController {
     private final QnAboardRepository qnAboardRepository;
     private final QnAboardService qnAboardService;
 
-    @GetMapping("/test")
+    @GetMapping("/list")
     public ResponseEntity<QnAboardPageResponseDto> test(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
                                                @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
                                                @RequestParam(name = "size", defaultValue = "10") int size) {
@@ -42,8 +43,6 @@ public class QnAboardController {
         return ResponseEntity.ok(qnAboardPageResponseDto);
     }
 
-
-
     @PostMapping("/save")
     public ResponseEntity<QnAboard> save(@AuthenticationPrincipal LoginUserDetails loginUserDetails, @Valid @RequestBody QnAboardReqDto qnAboardReqDto) {
         if(loginUserDetails==null) {
@@ -51,6 +50,13 @@ public class QnAboardController {
         }
         QnAboard qnAboard = qnAboardService.save(loginUserDetails, qnAboardReqDto);
         return ResponseEntity.ok(qnAboard);
+    }
+
+
+    @GetMapping("view/{idx}")
+    public ResponseEntity<QnAboardResponseDto> findOne(@PathVariable(name = "idx") long idx) {
+        QnAboardResponseDto qnAboardResponseDto = qnAboardService.viewPage(idx);
+        return ResponseEntity.ok(qnAboardResponseDto);
     }
 
 
