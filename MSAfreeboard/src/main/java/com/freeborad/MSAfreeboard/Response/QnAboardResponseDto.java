@@ -20,7 +20,8 @@ public class QnAboardResponseDto {
     private String content;
     private String type;
     private QnAstate qnastate;
+    private QnASecret qnASecret;
 
-    private LocalDateTime Wdate;
-    private User user;
+    private String Wdate;
+    private String user;
 }

@@ -15,6 +15,7 @@ import com.freeborad.MSAfreeboard.Response.QnAboardResponseDto;
 import com.freeborad.MSAfreeboard.error.BizException;
 import com.freeborad.MSAfreeboard.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QnAboardService {
 
     private final ModelMapper modelMapper;
@@ -44,15 +46,10 @@ public class QnAboardService {
         return qnAboard;
     }
 
-
+    
     public QnAboardPageResponseDto qnAstudentPage(Pageable pageable, LoginUserDetails loginUserDetails) {
-//        long QnAboardIdx = userAndLectureRepository
-//                .findByUser_IdxAndState(loginUserDetails.getIdx(), 1)
-//                .orElseThrow(() -> new BizException(ErrorCode.LECTURE_NOT_FOUND))
-//                .getLecture()
-//                .getIdx();
 
-        Page<QnAboard> page = qnAboardRepository.findByQnAboradIdxOrNull(QnAboardIdx, pageable);
+        Page<QnAboard> page = qnAboardRepository.findAll(pageable);
 
         return mapToQuestionResponsePageDto(page);
     }
@@ -60,27 +57,43 @@ public class QnAboardService {
 
 
     private QnAboardPageResponseDto mapToQuestionResponsePageDto(Page<QnAboard> page) {
+        // DTO 리스트 변환
+        List<QnAboardResponseDto> dtoList = page.getContent().stream()
+                .map(this::convertToQnAboardResponseDto)
+                .toList();
 
-        List<QnAboardResponseDto> list = page
-                .getContent()
-                .stream()
-                .map(qnAboard -> {
-                    QnAboardResponseDto qnAboardResponseDto = modelMapper.map(qnAboard, QnAboardResponseDto.class);
+        // 빈 페이지 처리 (필요에 따라 메시지나 다른 처리를 할 수 있음)
+        if (dtoList.isEmpty()) {
+            log.info("No data found in the page.");
+        }
 
-                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
-                    qnAboardResponseDto.setWdate(dateTimeFormatter.format(qnAboard.getWdate()));
 
-                    qnAboardResponseDto.setUser(( qnAboard.getUser() != null) ?  qnAboard.getUser().getName() : "탈퇴한 회원");
-//                    qnAboardResponseDto.setUser(( qnAboard.getUser()!=null) ?  qnAboard.getUser().getTitle() : "전체");
 
-                    return  qnAboardResponseDto;
-                }).toList();
-
-        QnAboardPageResponseDto qnAboardResponsePageDto = modelMapper.map(page, QnAboardPageResponseDto.class);
-        qnAboardResponsePageDto.setList(list);
-
-        return qnAboardResponsePageDto;
+        // 페이지 응답 DTO 생성
+        QnAboardPageResponseDto responseDto = new QnAboardPageResponseDto();
+        responseDto.setList(dtoList);
+        responseDto.setTotalElements(page.getTotalElements());
+        responseDto.setTotalPages(page.getTotalPages());
+        responseDto.setSize(page.getSize());
+    
+        return responseDto;
     }
+    
 
+    // QnAboard를 QnAboardResponseDto로 변환하는 메서드 분리
+private QnAboardResponseDto convertToQnAboardResponseDto(QnAboard qnAboard) {
+    QnAboardResponseDto dto = modelMapper.map(qnAboard, QnAboardResponseDto.class);
+    
+    // 날짜 포맷팅
+    if (qnAboard.getWdate() != null) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy/MM/dd HH:mm");
+        dto.setWdate(qnAboard.getWdate().format(formatter));
+    }
+    
+    // 사용자 정보 설정 - Optional 대신 일반 null 체크 사용
+    dto.setUser(qnAboard.getUser() != null ? qnAboard.getUser().getName() : "탈퇴한 회원");
+    
+    return dto;
+}
 
 }
