@@ -1,6 +1,7 @@
 package com.freeborad.MSAfreeboard.Controller;
 
 import com.freeborad.MSAfreeboard.Dto.AnnounceReqDto;
+import com.freeborad.MSAfreeboard.Dto.QnACommentReqDto;
 import com.freeborad.MSAfreeboard.Dto.QnAboardReqDto;
 import com.freeborad.MSAfreeboard.Entity.Announce;
 import com.freeborad.MSAfreeboard.Entity.QnAboard;
@@ -57,6 +58,22 @@ public class QnAboardController {
     public ResponseEntity<QnAboardResponseDto> findOne(@PathVariable(name = "idx") long idx) {
         QnAboardResponseDto qnAboardResponseDto = qnAboardService.viewPage(idx);
         return ResponseEntity.ok(qnAboardResponseDto);
+    }
+
+
+
+
+    @PutMapping("/comment/{idx}")
+    public ResponseEntity<QnAboard> addComment(@AuthenticationPrincipal LoginUserDetails loginUserDetails,
+                                               @PathVariable(name = "idx") long idx,
+                                               @Valid @RequestBody QnACommentReqDto commentReqDto) {
+        if (loginUserDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        QnAboard updatedQnAboard = qnAboardService.addComment(idx, loginUserDetails, commentReqDto);
+
+        return ResponseEntity.ok(updatedQnAboard);
     }
 
 

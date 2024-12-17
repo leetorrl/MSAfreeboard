@@ -4,6 +4,7 @@ package com.freeborad.MSAfreeboard.Dto;
 
 import com.freeborad.MSAfreeboard.Entity.QnASecret;
 import com.freeborad.MSAfreeboard.Entity.QnAstate;
+import com.freeborad.MSAfreeboard.Entity.User;
 import lombok.Data;
 
 
@@ -19,8 +20,10 @@ public class QnAboardReqDto {
     private QnAstate qnAstate;
 
     private QnASecret qnASecret;
-//    private QnAstate qnastate;
 
-//    private Long user;
+    private String comment;
+
+    private User commentuser;
+
 
 }

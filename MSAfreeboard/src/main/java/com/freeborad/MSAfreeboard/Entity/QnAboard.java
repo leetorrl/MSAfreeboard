@@ -19,12 +19,12 @@ public class QnAboard {
     private Long idx;
 
     private String title;
+
     private String content;
+
     private String type;
 
-
     private LocalDateTime wdate;
-
 
     private int views;
 
@@ -37,6 +37,12 @@ public class QnAboard {
     @ManyToOne
     @JoinColumn(name = "useridx")
     private User user;
+
+    private String comment;
+
+    @ManyToOne
+    @JoinColumn(name = "commentusername")
+    private User commentuser; //
 
 
 }

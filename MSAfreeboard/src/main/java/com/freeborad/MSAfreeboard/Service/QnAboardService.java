@@ -1,6 +1,7 @@
 package com.freeborad.MSAfreeboard.Service;
 
 import com.freeborad.MSAfreeboard.Dto.AnnounceReqDto;
+import com.freeborad.MSAfreeboard.Dto.QnACommentReqDto;
 import com.freeborad.MSAfreeboard.Dto.QnAboardReqDto;
 import com.freeborad.MSAfreeboard.Entity.Announce;
 import com.freeborad.MSAfreeboard.Entity.QnAboard;
@@ -14,6 +15,7 @@ import com.freeborad.MSAfreeboard.Response.QnAboardPageResponseDto;
 import com.freeborad.MSAfreeboard.Response.QnAboardResponseDto;
 import com.freeborad.MSAfreeboard.error.BizException;
 import com.freeborad.MSAfreeboard.error.ErrorCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -110,4 +112,22 @@ private QnAboardResponseDto convertToQnAboardResponseDto(QnAboard qnAboard) {
         return qnaboardResponseDto;
 
     }
-}
+
+    public QnAboard addComment(long idx, LoginUserDetails loginUserDetails, @Valid QnACommentReqDto commentReqDto) {
+
+        QnAboard qnAboard = qnAboardRepository.findById(idx).orElseThrow(() -> new RuntimeException("QnAboard not found"));
+
+        // 댓글 내용 설정
+        qnAboard.setComment(commentReqDto.getComment());
+
+        // 댓글 작성자 설정
+        User commentUser = userRepository.findById(loginUserDetails.getIdx())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        qnAboard.setCommentuser(commentUser);
+
+        // 댓글이 추가된 게시글 저장
+        return qnAboardRepository.save(qnAboard);
+    }
+    }
+

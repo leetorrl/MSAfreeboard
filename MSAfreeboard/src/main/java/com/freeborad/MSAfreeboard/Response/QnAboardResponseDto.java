@@ -25,4 +25,6 @@ public class QnAboardResponseDto {
 
     private String Wdate;
     private String user;
+    private String comment;
+    private String commentuser;
 }
