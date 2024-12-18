@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicTypeDescriptor: TRACE
+    org.springframework.security: OFF
+
+
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/test
+    username: root
+    password: 1234
+    driver-class-name: org.mariadb.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        show_sql: true
+        format_sql: true
+
+# JWT 설정 추가
+jwt:
+  secret: "VGhpcyBpcyBhIHNlY3JldCBrZXkgZm9yIEpXVCBzaWduYXR1cmUgaW4gQjY0"  # Base64로 인코딩된 키
+  expiration: 3600000  # 1시간 (밀리초 단위)
+  refresh-token:
+    expiration: 604800000  # 7일 (밀리초 단위)
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs  # API 문서의 기본 경로
+  swagger-ui:
+    path: /swagger-ui  # Swagger UI의 기본 경로
+
